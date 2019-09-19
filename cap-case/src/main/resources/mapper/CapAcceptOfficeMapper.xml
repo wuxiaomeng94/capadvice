@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.capinfo.mapper.CapAccpetOfficeMapper">
+  <resultMap id="BaseResultMap" type="com.capinfo.entity.CapAcceptOffice">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="pid" jdbcType="VARCHAR" property="pid"/>
+    <result column="area_id" jdbcType="VARCHAR" property="areaId"/>
+    <result column="name" jdbcType="VARCHAR" property="name"/>
+    <result column="full_name" jdbcType="VARCHAR" property="fullName"/>
+    <result column="sort" jdbcType="VARCHAR" property="sort"/>
+    <result column="dept" jdbcType="VARCHAR" property="dept"/>
+    <result column="deal_problem" jdbcType="VARCHAR" property="dealProblem"/>
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+      <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+  </resultMap>
+
+  <select id="selectListByPage" parameterType="com.capinfo.entity.CapAcceptOffice" resultMap="BaseResultMap">
+    SELECT *
+    from cap_accept_office
+    <where>
+      del_flag='0'
+      <if test="name!=null and name!=''">
+        and name like '%${name}%'
+      </if>
+      <if test="fullName!=null and fullName!=''">
+        and full_name like '%{fullName}%'
+      </if>
+      <!--<if test="yesswNumber!=null and yesswNumber!=''">
+        and yessw_number like '%${yesswNumber}%'
+      </if>
+      <if test="yesswCreatetimeStart!=null and yesswCreatetimeStart!=''">
+        <![CDATA[ and yessw_create_time >= #{yesswCreatetimeStart,jdbcType=VARCHAR} ]]>
+      </if>
+      <if test="yesswCreatetimeEnd!=null and yesswCreatetimeEnd!=''">
+        <![CDATA[ and yessw_create_time <= #{yesswCreatetimeEnd,jdbcType=VARCHAR} ]]>
+      </if>-->
+    </where>
+    order by create_date desc
+  </select>
+
+  <select id="selectListByCondition" parameterType="com.capinfo.entity.CapAcceptOffice" resultMap="BaseResultMap">
+    SELECT *
+    from cap_accept_office
+    <where>
+      del_flag='0'
+      <if test="name!=null and name!=''">
+        and name like '%${name}%'
+      </if>
+      <if test="fullName!=null and fullName!=''">
+        and full_name like '%{fullName}%'
+      </if>
+    </where>
+    order by create_date desc
+  </select>
+
+</mapper>

@@ -1,0 +1,6 @@
+spring:
+  profiles:
+    #active: oracle
+    active: mysql-dev
+#    可切换sqlserver
+#    active: sqlserver-dev

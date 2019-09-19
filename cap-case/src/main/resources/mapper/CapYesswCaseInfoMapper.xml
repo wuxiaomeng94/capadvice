@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.capinfo.mapper.CapYesswCaseInfoMapper">
+  <resultMap id="BaseResultMap" type="com.capinfo.entity.CapYesswCaseInfo">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="number" jdbcType="VARCHAR" property="number"/>
+    <result column="yessw_number" jdbcType="VARCHAR" property="yesswNumber"/>
+    <result column="yessw_content" jdbcType="VARCHAR" property="yesswContent"/>
+    <result column="yessw_problem_place" jdbcType="VARCHAR" property="yesswProblemPlace"/>
+    <result column="yessw_callperson" jdbcType="VARCHAR" property="yesswCallperson"/>
+    <result column="yessw_callperson_phone" jdbcType="VARCHAR" property="yesswCallpersonPhone"/>
+    <result column="yessw_asked_area" jdbcType="VARCHAR" property="yesswAskedArea"/>
+    <result column="yessw_asked_street" jdbcType="VARCHAR" property="yesswAskedStreet"/>
+    <result column="yessw_title" jdbcType="VARCHAR" property="yesswTitle"/>
+    <result column="yessw_create_time" jdbcType="VARCHAR" property="yesswCreateTime"/>
+    <result column="yessw_send_time" jdbcType="VARCHAR" property="yesswSendTime"/>
+    <result column="yessw_problem_type" jdbcType="VARCHAR" property="yesswProblemType"/>
+    <result column="problem_type_level1" jdbcType="VARCHAR" property="problemTypeLevel1"/>
+    <result column="problem_type_level2" jdbcType="VARCHAR" property="problemTypeLevel2"/>
+    <result column="problem_type_level3" jdbcType="VARCHAR" property="problemTypeLevel3"/>
+    <result column="problem_type_level4" jdbcType="VARCHAR" property="problemTypeLevel4"/>
+    <result column="problem_type_level5" jdbcType="VARCHAR" property="problemTypeLevel5"/>
+    <result column="yessw_accept_office" jdbcType="VARCHAR" property="yesswAcceptOffice"/>
+    <result column="accept_office" jdbcType="VARCHAR" property="acceptOffice"/>
+    <result column="yessw_status" jdbcType="VARCHAR" property="yesswStatus"/>
+    <result column="yessw_type" jdbcType="VARCHAR" property="yesswType"/>
+    <result column="yessw_result" jdbcType="VARCHAR" property="yesswResult"/>
+    <result column="yessw_end_time" jdbcType="VARCHAR" property="yesswEndTime"/>
+    <result column="accept_office_process" jdbcType="VARCHAR" property="acceptOfficeProcess"/>
+    <result column="connect_flag" jdbcType="VARCHAR" property="connectFlag"/>
+    <result column="solve_flag" jdbcType="VARCHAR" property="solveFlag"/>
+    <result column="pleased_flag" jdbcType="VARCHAR" property="pleasedFlag"/>
+    <result column="case_finish_time" jdbcType="VARCHAR" property="caseFinishTime"/>
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+  </resultMap>
+
+  <select id="selectListByPage" parameterType="com.capinfo.entity.CapYesswCaseInfo" resultMap="BaseResultMap">
+    SELECT *
+    from cap_yessw_case_info
+    <where>
+      <if test="yesswNumber!=null and yesswNumber!=''">
+        and yessw_number like '%${yesswNumber}%'
+      </if>
+      <if test="yesswCreatetimeStart!=null and yesswCreatetimeStart!=''">
+        <![CDATA[ and yessw_create_time >= #{yesswCreatetimeStart,jdbcType=VARCHAR} ]]>
+      </if>
+      <if test="yesswCreatetimeEnd!=null and yesswCreatetimeEnd!=''">
+        <![CDATA[ and yessw_create_time <= #{yesswCreatetimeEnd,jdbcType=VARCHAR} ]]>
+      </if>
+      <!--<if test="title!=null and title!=''">and title like '%${title}%'</if>
+      <if test="content!=null and content!=''">and remark like '%${content}%'</if>
+      <if test="adviceCode != null and adviceCode !=''">and advice_code = #{adviceCode,jdbcType=VARCHAR}</if>
+      <if test="type != null and type != ''">and type = #{type,jdbcType=VARCHAR}</if>
+      <if test="status != null and status != ''">and status = #{status,jdbcType=VARCHAR}</if>
+      <if test="reportType != null and reportType != ''">and report_type = #{reportType,jdbcType=VARCHAR}</if>
+      <if test="createDateStart != null and createDateStart != ''">
+        <![CDATA[ and DATE_FORMAT(create_date, '%Y-%m-%d %H:%M') >= DATE_FORMAT(#{createDateStart}, '%Y-%m-%d %H:%M')   ]]>
+      </if>
+      <if test="createDateEnd != null and createDateEnd != ''">
+        <![CDATA[ and DATE_FORMAT(create_date, '%Y-%m-%d %H:%M') <= DATE_FORMAT(#{createDateEnd}, '%Y-%m-%d %H:%M')   ]]>
+      </if>
+      <if test="name != null and name != ''">
+        and name like '%'+#{name}+'%'
+      </if>
+      <if test="title != null and title != ''">
+        and title like '%'+#{title}+'%'
+      </if>-->
+    </where>
+    <if test="groupByFlag=='true'">
+      group by yessw_number
+    </if>
+    order by yessw_send_time desc
+  </select>
+
+  <select id="selectListByCondition" parameterType="com.capinfo.entity.CapYesswCaseInfo" resultMap="BaseResultMap">
+    SELECT *
+    from cap_yessw_case_info
+    <where>
+    <if test="yesswNumber!=null and yesswNumber!=''">
+      and yessw_number like '%${yesswNumber}%'
+    </if>
+    <if test="yesswCreatetimeStart!=null and yesswCreatetimeStart!=''">
+      <![CDATA[ and yessw_create_time >= #{yesswCreatetimeStart,jdbcType=VARCHAR} ]]>
+    </if>
+    <if test="yesswCreatetimeEnd!=null and yesswCreatetimeEnd!=''">
+      <![CDATA[ and yessw_create_time <= #{yesswCreatetimeEnd,jdbcType=VARCHAR} ]]>
+    </if>
+      <if test="yesswSendtimeStart!=null and yesswSendtimeStart!=''">
+        <![CDATA[ and yessw_send_time >= #{yesswSendtimeStart,jdbcType=VARCHAR} ]]>
+      </if>
+      <if test="yesswSendtimeEnd!=null and yesswSendtimeEnd!=''">
+        <![CDATA[ and yessw_send_time <= #{yesswSendtimeEnd,jdbcType=VARCHAR} ]]>
+      </if>
+      <if test="yesswStatus!=null and yesswStatus!=''">
+        and yessw_status = #{yesswStatus}
+      </if>
+      <if test="yesswStatusNotQuery!=null and yesswStatusNotQuery!=''">
+        and yessw_status != #{yesswStatusNotQuery}
+      </if>
+    </where>
+    <if test="groupByFlag=='true'">
+      group by yessw_number
+    </if>
+    order by yessw_send_time desc
+  </select>
+
+</mapper>

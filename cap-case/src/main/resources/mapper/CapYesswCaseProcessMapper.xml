@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.capinfo.mapper.CapYesswCaseProcessMapper">
+  <resultMap id="BaseResultMap" type="com.capinfo.entity.CapYesswCaseProcess">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="yessw_number" jdbcType="VARCHAR" property="yesswNumber" />
+    <result column="accept_office" jdbcType="VARCHAR" property="acceptOffice" />
+    <result column="send_time" jdbcType="VARCHAR" property="sendTime" />
+    <result column="yessw_status" jdbcType="VARCHAR" property="yesswStatus" />
+    <result column="end_time" jdbcType="VARCHAR" property="endTime" />
+    <result column="yessw_case_id" jdbcType="VARCHAR" property="yesswCaseId" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="del_flag" jdbcType="VARCHAR" property="delFlag" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="solve_flag" jdbcType="VARCHAR" property="solveFlag"/>
+    <result column="pleased_flag" jdbcType="VARCHAR" property="pleasedFlag"/>
+    <result column="adjust_flag" jdbcType="VARCHAR" property="adjustFlag"/>
+  </resultMap>
+
+  <select id="selectListByPage" parameterType="com.capinfo.entity.CapYesswCaseProcess" resultMap="BaseResultMap">
+    SELECT *
+    from cap_yessw_case_process
+    <where>
+      del_flag = '0'
+      <if test="yesswCaseId!=null and yesswCaseId!=''">
+        and yessw_case_id = #{yesswCaseId}
+      </if>
+      <if test="yesswNumber!=null and yesswNumber!=''">
+        and yessw_number like '%${yesswNumber}%'
+      </if>
+    </where>
+    order by create_date desc
+  </select>
+
+  <select id="selectListByCondition" parameterType="com.capinfo.entity.CapYesswCaseProcess" resultMap="BaseResultMap">
+    SELECT *
+    from cap_yessw_case_process
+    <where>
+      del_flag = '0'
+      <if test="yesswCaseId!=null and yesswCaseId!=''">
+        and yessw_case_id = #{yesswCaseId}
+      </if>
+      <if test="yesswNumber!=null and yesswNumber!=''">
+        and yessw_number like '%${yesswNumber}%'
+      </if>
+    </where>
+    <if test="orderFlag!='asc'">
+      order by create_date desc
+    </if>
+    <if test="orderFlag=='asc'">
+      order by create_date asc
+    </if>
+
+  </select>
+
+</mapper>

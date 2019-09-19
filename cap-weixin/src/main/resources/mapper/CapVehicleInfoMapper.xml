@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.capinfo.mapper.CapVehicleInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.capinfo.entity.CapVehicleInfo" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="plate_no" property="plateNo" jdbcType="VARCHAR" />
+    <result column="vehicle_type" property="vehicleType" jdbcType="VARCHAR" />
+    <result column="vehicle_prop" property="vehicleProp" jdbcType="VARCHAR" />
+    <result column="vehicle_kind" property="vehicleKind" jdbcType="VARCHAR" />
+    <result column="checkTime" property="checktime" jdbcType="TIMESTAMP" />
+    <result column="pay_date" property="payDate" jdbcType="TIMESTAMP" />
+    <result column="openId" property="openid" jdbcType="VARCHAR" />
+    <result column="create_date" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="del_flag" property="delFlag" jdbcType="VARCHAR" />
+  </resultMap>
+
+
+  <select id="selectListByCondition" parameterType="com.capinfo.entity.CapVehicleInfo" resultMap="BaseResultMap">
+    SELECT
+    a.id AS "id",
+    a.plate_no AS "plateNo",
+    a.vehicle_type AS "vehicleType",
+    a.vehicle_prop AS "vehicleProp",
+    a.vehicle_kind AS "vehicleKind",
+    a.create_date AS "createDate",
+    a.openId AS "openid",
+    b.id AS "capWorkOrderRecord.id",
+    b.now_link AS "capWorkOrderRecord.nowLink",
+    b.now_status AS "capWorkOrderRecord.nowStatus"
+    from cap_vehicle_info a left join cap_work_order_record b on a.id=b.vehicle_id
+    <where>
+      a.del_flag = '0'
+      <if test="capWorkOrderRecord != null and capWorkOrderRecord.nowLink!=null and capWorkOrderRecord.nowLink!=''">
+        and b.now_link = #{capWorkOrderRecord.nowLink}
+      </if>
+      <if test="capWorkOrderRecord != null and capWorkOrderRecord.nowStatus!=null and capWorkOrderRecord.nowStatus!=''">
+        and b.now_status = #{capWorkOrderRecord.nowStatus}
+      </if>
+      <if test="plateNo !=null and plateNo!=''">
+        and a.plate_no = #{plateNo}
+      </if>
+      <if test="openid!= null and openid!=''">
+        and a.openId = #{openid}
+      </if>
+    </where>
+    order by a.create_date desc
+  </select>
+
+  <select id="selectCountJoinByCondition" parameterType="com.capinfo.entity.CapVehicleInfo" resultType="java.lang.Integer">
+    select
+    count(*)
+    from cap_vehicle_info a left join cap_work_order_record b on a.id=b.record_id
+    <where>
+      a.del_flag = '0'
+      <if test="capWorkOrderRecord != null and capWorkOrderRecord.nowLink!=null and capWorkOrderRecord.nowLink!=''">
+        and b.now_link = #{capWorkOrderRecord.nowLink}
+      </if>
+      <if test="capWorkOrderRecord != null and capWorkOrderRecord.nowStatus!=null and capWorkOrderRecord.nowStatus!=''">
+        and b.now_status = #{capWorkOrderRecord.nowStatus}
+      </if>
+      <if test="plateNo !=null and plateNo!=''">
+        and a.plate_no = #{plateNo}
+      </if>
+      <if test="openid!= null and openid!=''">
+        and a.openId = #{openid}
+      </if>
+    </where>
+  </select>
+
+
+</mapper>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.capinfo.mapper.CapYesswCaseAnalyzeMapper">
+  <resultMap id="BaseResultMap" type="com.capinfo.entity.CapYesswCaseAnalyze">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="number" jdbcType="VARCHAR" property="number"/>
+    <result column="yessw_number" jdbcType="VARCHAR" property="yesswNumber"/>
+    <result column="yessw_content" jdbcType="VARCHAR" property="yesswContent"/>
+    <result column="yessw_problem_place" jdbcType="VARCHAR" property="yesswProblemPlace"/>
+    <result column="yessw_callperson" jdbcType="VARCHAR" property="yesswCallperson"/>
+    <result column="yessw_callperson_phone" jdbcType="VARCHAR" property="yesswCallpersonPhone"/>
+    <result column="yessw_asked_area" jdbcType="VARCHAR" property="yesswAskedArea"/>
+    <result column="yessw_asked_street" jdbcType="VARCHAR" property="yesswAskedStreet"/>
+    <result column="yessw_title" jdbcType="VARCHAR" property="yesswTitle"/>
+    <result column="yessw_create_time" jdbcType="VARCHAR" property="yesswCreateTime"/>
+    <result column="yessw_send_time" jdbcType="VARCHAR" property="yesswSendTime"/>
+    <result column="yessw_problem_type" jdbcType="VARCHAR" property="yesswProblemType"/>
+    <result column="problem_type_level1" jdbcType="VARCHAR" property="problemTypeLevel1"/>
+    <result column="problem_type_level2" jdbcType="VARCHAR" property="problemTypeLevel2"/>
+    <result column="problem_type_level3" jdbcType="VARCHAR" property="problemTypeLevel3"/>
+    <result column="problem_type_level4" jdbcType="VARCHAR" property="problemTypeLevel4"/>
+    <result column="problem_type_level5" jdbcType="VARCHAR" property="problemTypeLevel5"/>
+    <result column="yessw_accept_office" jdbcType="VARCHAR" property="yesswAcceptOffice"/>
+    <result column="yessw_status" jdbcType="VARCHAR" property="yesswStatus"/>
+    <result column="yessw_type" jdbcType="VARCHAR" property="yesswType"/>
+    <result column="yessw_result" jdbcType="VARCHAR" property="yesswResult"/>
+    <result column="yessw_end_time" jdbcType="VARCHAR" property="yesswEndTime"/>
+    <result column="accept_office" jdbcType="VARCHAR" property="acceptOffice"/>
+    <result column="accept_office_process" jdbcType="VARCHAR" property="acceptOfficeProcess"/>
+    <result column="connect_flag" jdbcType="VARCHAR" property="connectFlag"/>
+    <result column="solve_flag" jdbcType="VARCHAR" property="solveFlag"/>
+    <result column="pleased_flag" jdbcType="VARCHAR" property="pleasedFlag"/>
+    <result column="case_finish_time" jdbcType="VARCHAR" property="caseFinishTime"/>
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="create_date" jdbcType="TIMESTAMP" property="createDate" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="send_casetype" jdbcType="VARCHAR" property="sendCaseType" />
+    <result column="worker_num" jdbcType="VARCHAR" property="workerNum"/>
+    <result column="send_case_time" jdbcType="VARCHAR" property="sendCaseTime"/>
+    <result column="finish_time" jdbcType="VARCHAR" property="finishTime"/>
+    <result column="recovery_time" jdbcType="VARCHAR" property="recoveryTime"/>
+    <result column="accept_office_time" jdbcType="VARCHAR" property="acceptOfficeTime"/>
+    <result column="adjust_flag" jdbcType="VARCHAR" property="adjustFlag"/>
+    <result column="reply_city_time" jdbcType="VARCHAR" property="replyCityTime"/>
+    <result column="create_case_time" jdbcType="TIMESTAMP" property="createCaseTime"/>
+  </resultMap>
+
+  <sql id="whereSql">
+    a.del_flag = '0'
+    <if test="yesswNumber!=null and yesswNumber!=''">
+      and a.yessw_number like '%${yesswNumber}%'
+    </if>
+    <if test="yesswCreatetimeStart!=null and yesswCreatetimeStart!=''">
+      <![CDATA[ and a.yessw_create_time >= #{yesswCreatetimeStart,jdbcType=VARCHAR} ]]>
+    </if>
+    <if test="yesswCreatetimeEnd!=null and yesswCreatetimeEnd!=''">
+      <![CDATA[ and a.yessw_create_time <= #{yesswCreatetimeEnd,jdbcType=VARCHAR} ]]>
+    </if>
+    <if test="roleFlag=='worker'">
+      and a.create_by = #{currentUserId}
+    </if>
+    <if test="createDateStart != null and createDateStart != ''">
+      <![CDATA[ and DATE_FORMAT(a.create_case_time, '%Y-%m-%d %H:%M') >= #{createDateStart}   ]]>
+    </if>
+    <if test="createDateEnd != null and createDateEnd != ''">
+      <![CDATA[ and DATE_FORMAT(a.create_case_time, '%Y-%m-%d %H:%M') <= #{createDateEnd}   ]]>
+    </if>
+    <if test="acceptOffice!=null and acceptOffice!=''">
+      and a.accept_office like '%${acceptOffice}%'
+    </if>
+    <if test="createByStr!=null and createByStr!=''">
+      and u.username like '%${createByStr}%'
+    </if>
+    <if test="pleasedFlag!=null and pleasedFlag!=''">
+      and a.pleased_flag = #{pleasedFlag}
+    </if>
+    <if test="recoveryTimeStart != null and recoveryTimeStart != ''">
+      <![CDATA[ and a.reply_city_time>=#{recoveryTimeStart} ]]>
+    </if>
+    <if test="recoveryTimeEnd != null and recoveryTimeEnd != ''">
+      <![CDATA[ and a.reply_city_time<=#{recoveryTimeEnd} ]]>
+    </if>
+    <if test="solveFlag != null and solveFlag != ''">
+      and a.solve_flag = #{solveFlag}
+    </if>
+    <if test="yesswContent != null and yesswContent != ''">
+      and a.yessw_content like '%${yesswContent}%'
+    </if>
+  </sql>
+
+
+  <select id="selectListByPage" parameterType="com.capinfo.entity.CapYesswCaseAnalyze" resultMap="BaseResultMap">
+    SELECT a.*,
+    u.username as "createByStr"
+    from cap_yessw_case_analyze a left join sys_user u on a.create_by=u.id
+    <where>
+      <include refid="whereSql"/>
+    </where>
+    order by a.yessw_send_time desc
+  </select>
+
+  <select id="selectListByCondition" parameterType="com.capinfo.entity.CapYesswCaseAnalyze" resultMap="BaseResultMap">
+    SELECT a.*,
+    DATE_FORMAT(a.create_date, '%Y-%m-%d %H:%M') as "createDateStr",
+    u.username as "createByStr"
+    from cap_yessw_case_analyze a left join sys_user u on a.create_by=u.id
+    <where>
+      <include refid="whereSql"/>
+    </where>
+    order by a.yessw_send_time desc
+  </select>
+
+
+  <select id="selectAcceptOfficeByConditionGroupBy" parameterType="com.capinfo.entity.CapYesswCaseAnalyze" resultType="java.lang.String">
+    select a.accpet_office
+    from cap_yessw_case_analyze a
+    <where>
+      <include refid="whereSql"/>
+    </where>
+    group by a.accpet_office
+    order by a.accept_office desc,a.yessw_send_time desc
+  </select>
+
+
+
+
+</mapper>
